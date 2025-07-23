@@ -12,6 +12,14 @@ dotenv.config();
 const port=process.env.PORT ?? 3000;
 
 const app=express();
+
+app.use(cors({
+  origin: ["http://localhost:5173", "https://illustrious-dragon-77f03d.netlify.app"],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
+
 const server=http.createServer(app)
 const io=new Server(server,{
   cors: {

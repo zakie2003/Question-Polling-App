@@ -5,7 +5,9 @@ import { io } from "socket.io-client";
 import "../CSS/Poll.css";
 import axios from "axios";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://question-polling-app.onrender.com",{
+  withCredentials: true
+});
 
 const Poll = () => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +33,7 @@ const Poll = () => {
 
 useEffect(() => {
   const interval = setInterval(async () => {
-    const res = await axios.get(`http://localhost:3000/user/status?id=${userId}`);
+    const res = await axios.get(`https://question-polling-app.onrender.com/user/status?id=${userId}`);
 
 console.log("Server Response",res.data);
     if (res.data.isRemoved) {

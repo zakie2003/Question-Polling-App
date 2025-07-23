@@ -2,7 +2,9 @@ import { useState,useEffect } from "react";
 import "../CSS/Chatbox.css";
 import { io } from "socket.io-client";
 
-const socket=io("http://localhost:3000");
+const socket=io("https://question-polling-app.onrender.com",{
+  withCredentials: true
+});
 
 
 

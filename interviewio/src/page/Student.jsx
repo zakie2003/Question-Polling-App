@@ -7,7 +7,7 @@ function Student(){
     let [name,setName]=useState("");
 
     const submitName=async()=>{
-        const response= await axios.post("http://localhost:3000/user/add_user",{name});
+        const response= await axios.post("https://question-polling-app.onrender.com/user/add_user",{name});
         console.log(response.data.user_data);
         sessionStorage.setItem("id",response.data.user_data[0].id);
         sessionStorage.setItem("name",response.data.user_data[0].name);

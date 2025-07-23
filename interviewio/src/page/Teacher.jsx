@@ -3,7 +3,9 @@ import "../CSS/Teacher.css";
 import {io} from "socket.io-client";
 import AdminChatbox from "../components/admin_chabox";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://question-polling-app.onrender.com",{
+  withCredentials: true
+});
 
 function Teacher() {
     const [questionText, setQuestionText] = useState("");

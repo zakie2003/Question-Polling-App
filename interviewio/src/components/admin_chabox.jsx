@@ -3,7 +3,9 @@ import "../CSS/Chatbox.css";
 import { io } from "socket.io-client";
 import axios from "axios";
 
-const socket=io("http://localhost:3000");
+const socket=io("https://question-polling-app.onrender.com",{
+  withCredentials: true
+});
 
 
 
@@ -27,12 +29,12 @@ const AdminChatbox = () => {
     }
 
     const remove_user=async(id)=>{
-        const response =await axios.get(`http://localhost:3000/teacher/remove/${id}`);
+        const response =await axios.get(`https://question-polling-app.onrender.com/teacher/remove/${id}`);
         get_user_Data();
     }
 
     const get_user_Data=async()=>{
-        const response=await axios.get("http://localhost:3000/teacher/get_users");
+        const response=await axios.get("https://question-polling-app.onrender.com/teacher/get_users");
         setUsers(response.data.data);
     }
 
