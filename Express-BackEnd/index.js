@@ -13,20 +13,31 @@ const port=process.env.PORT ?? 3000;
 
 const app=express();
 
+
+
+const server=http.createServer(app)
+
+
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://illustrious-dragon-77f03d.netlify.app"
+];
+
 app.use(cors({
-  origin: ["*"],
+  origin: allowedOrigins,
   methods: ["GET", "POST"],
   credentials: true
 }));
 
-
-const server=http.createServer(app)
-const io=new Server(server,{
+const io = new Server(server, {
   cors: {
-    origin: ["*"],
-    methods: ["GET", "POST"]
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
+
 
 let answers={};
 let timer = null;
