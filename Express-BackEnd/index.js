@@ -21,7 +21,7 @@ const server=http.createServer(app)
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://illustrious-dragon-77f03d.netlify.app"
+  "https://willowy-raindrop-eba8b3.netlify.app"
 ];
 
 app.use(cors({
