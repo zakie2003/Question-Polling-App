@@ -31,7 +31,6 @@ const io=new Server(server,{
 let answers={};
 let timer = null;
 
-app.use(cors({"origin":["http://localhost:5173","https://illustrious-dragon-77f03d.netlify.app"]}))
 app.use(express.json()); 
 
 app.get("/",(req,res)=>{
