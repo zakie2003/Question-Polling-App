@@ -24,9 +24,20 @@ const AdminChatbox = () => {
     };
 
 
-    const get_chat_data=()=>{
-
+    const get_messages = async () => {
+    try {
+        const response = await axios.get("http://localhost:3000/chat_message"); 
+        setMessages([...response.data.data].reverse());
+  
+    } catch (err) {
+        console.error("Error fetching messages", err);
     }
+    };
+
+
+    useEffect(()=>{
+    get_messages();  
+    },[])
 
     const remove_user=async(id)=>{
         const response =await axios.get(`https://question-polling-app.onrender.com/teacher/remove/${id}`);

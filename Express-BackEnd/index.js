@@ -66,6 +66,14 @@ app.get("/teacher/remove/:id", async (req, res) => {
   res.json({ success: true });
 });
 
+app.get("/chat_message",async(req,res)=>{
+  const {data,error}= await supabase.from("chat").select("*");
+  if(error){
+    return res.json({"status":"error",error});
+  }
+  res.json({status:"sucess",data:data})
+})
+
 
 app.use("/user",userrouter);
 
