@@ -1,0 +1,111 @@
+.header-section {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.intervue-poll-tag {
+    background: linear-gradient(to right, #8a2be2, #9932cc);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.main-heading {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.sub-heading {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.text-area-input{
+    background-color: #f2f2f2;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    width: calc(100% - 30px);
+    max-width: 600px;
+    height: 120px;
+    font-size: 1.1em;
+    line-height: 1.5;
+    resize: vertical;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+    font-family: inherit;
+}
+.text-area-input::placeholder {
+    color: #888;
+}
+
+.edit-options-section {
+    text-align: left;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.edit-options-heading {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+}
+
+.option-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1.05em;
+    background-color: #ffffff;
+    font-family: inherit;
+}
+.option-input::placeholder {
+    color: #a0a0a0;
+}
+
+.add-option-button {
+    background: linear-gradient(to right, #8a2be2, #9932cc);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-option-button:hover {
+    background: linear-gradient(to right, #9932cc, #8a2be2);
+    transform: translateY(-2px);
+}
+
+.time-limit-selector{
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 2px;
+    padding: 5px;
+    border: none;
+}
