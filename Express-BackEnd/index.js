@@ -42,6 +42,12 @@ const io = new Server(server, {
 let answers={};
 let timer = null;
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+
 app.use(express.json()); 
 
 app.get("/",(req,res)=>{
