@@ -25,7 +25,7 @@ const Chatbox = () => {
 
     const get_messages = async () => {
     try {
-        const response = await axios.get("http://localhost:3000/chat_message"); 
+        const response = await axios.get("https://question-polling-app.onrender.com/chat_message"); 
         console.log(response.data.data);
         setMessages([...response.data.data].reverse());
  

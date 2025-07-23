@@ -1,0 +1,108 @@
+.history-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.poll-item {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.poll-item h2 {
+  margin-bottom: 1rem;
+}
+
+.poll-item ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.poll-item li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.poll-item li.correct {
+  color: green;
+  font-weight: bold;
+}
+
+
+.history-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.poll-item {
+  margin-bottom: 30px;
+}
+
+.options-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.option-item {
+  margin-bottom: 15px;
+}
+
+.option-text {
+  margin-bottom: 5px;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 18px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #2196f3;
+  transition: width 0.3s ease-in-out;
+}
+
+.correct {
+  color: green;
+}
+
+.correct-fill {
+  background-color: #4caf50;
+}
+
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 999px;
+  overflow: hidden;
+  height: 14px;
+  width: 100%;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #a000f5; 
+  transition: width 0.4s ease-in-out;
+  border-radius: 999px;
+}
+
+.option-item {
+  margin-bottom: 15px;
+}
+
+.option-text {
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.correct-fill {
+  background-color: #00c853;
+}

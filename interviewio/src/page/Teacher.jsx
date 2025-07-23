@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../CSS/Teacher.css";
 import { io } from "socket.io-client";
 import AdminChatbox from "../components/admin_chabox";
+import axios from "axios";
 
+// Initialize socket
 const socket = io("https://question-polling-app.onrender.com", {
   withCredentials: true
 });
@@ -23,33 +25,40 @@ function Teacher() {
   const [lastQuestion, setLastQuestion] = useState(null);
 
   const MAX_CHARS = 100;
+  const currentQuestionRef = useRef(null); // ✅ Keeps track of the latest question for result saving
 
   const handleAskQuestion = () => {
-    if (correctOptionId) {
-      // Clear previous results
-      setResults(null);
-      setLastQuestion(null);
-
-      const question_data = {
-        questionText,
-        timeLimit,
-        options: options.map(opt => ({
-          id: opt.id,
-          text: opt.text,
-        })),
-        correct_id: correctOptionId,
-      };
-
-      socket.emit("new-question", question_data);
-      setSeconds(timeLimit);
-      setLoading(true);
-
-      setTimeout(() => {
-        setLoading(false);
-      }, timeLimit * 1000);
-    } else {
+    if (!correctOptionId) {
       window.alert("Enter Correct Option");
+      return;
     }
+
+    // Prepare question data
+    const question_data = {
+      questionText,
+      timeLimit,
+      options: options.map(opt => ({
+        id: opt.id,
+        text: opt.text,
+      })),
+      correct_id: correctOptionId,
+    };
+
+    // Store in ref to access later
+    currentQuestionRef.current = question_data;
+
+    // Emit socket event
+    socket.emit("new-question", question_data);
+
+    setResults(null);
+    setLastQuestion(null);
+    setSeconds(timeLimit);
+    setLoading(true);
+
+    // Stop loading after time is up
+    setTimeout(() => {
+      setLoading(false);
+    }, timeLimit * 1000);
   };
 
   const handleQuestionChange = (e) => {
@@ -92,13 +101,34 @@ function Teacher() {
   }, [loading]);
 
   useEffect(() => {
-    socket.on("question-result", (data) => {
-      console.log("Teacher received results:", data);
+    socket.on("question-result", async (data) => {
+      const questionData = currentQuestionRef.current;
+
+      if (!questionData) return;
+
       setResults(data);
       setLastQuestion({
-        questionText,
-        options,
+        questionText: questionData.questionText,
+        options: questionData.options
       });
+
+      try {
+        await axios.post("http://localhost:3000/teacher/save-poll-result", {
+          questionText: questionData.questionText,
+          options: questionData.options,
+          results: data,
+          correctOptionId: questionData.correct_id
+        });
+        setQuestionText("");
+        setCorrectOptionId(null);
+        setOptions([
+          { id: "opt1", text: "" },
+          { id: "opt2", text: "" },
+        ]);
+      } catch (err) {
+        console.error("Failed to save poll result:", err);
+      }
+
       setLoading(false);
     });
 
@@ -123,21 +153,14 @@ function Teacher() {
             <h1 className="main-heading">Let's Get Started</h1>
             <div className="question-header-row">
               <select
-                style={{
-                  border: "none",
-                  padding: "10px",
-                  background: "linear-gradient(to right, #8a2be2, #9932cc)"
-                }}
                 className="time-limit-selector"
                 value={timeLimit}
                 onChange={(e) => setTimeLimit(parseInt(e.target.value))}
               >
-                <option style={{background: "linear-gradient(to right, #8a2be2, #9932cc)",color:"black"}} value={15}>15 seconds</option>
-                <option style={{background: "linear-gradient(to right, #8a2be2, #9932cc)",color:"black"}} value={30}>30 seconds</option>
-                <option style={{background: "linear-gradient(to right, #8a2be2, #9932cc)",color:"black"}} value={45}>45 seconds</option>
-                <option style={{background: "linear-gradient(to right, #8a2be2, #9932cc)",color:"black"}} value={60}>60 seconds</option>
+                {[15, 30, 45, 60].map((val) => (
+                  <option key={val} value={val}>{val} seconds</option>
+                ))}
               </select>
-              <span className="dropdown-arrow"></span>
             </div>
             <p className="sub-heading-teacher">
               You'll have the ability to create and manage polls, ask questions, and monitor
@@ -178,6 +201,7 @@ function Teacher() {
                     <input
                       type="radio"
                       name="correctOption"
+                      checked={correctOptionId === option.id}
                       onChange={() => setCorrectOptionId(option.id)}
                     />
                   </div>
@@ -206,11 +230,11 @@ function Teacher() {
           <h2 className="results-heading">Poll Results for: "{lastQuestion.questionText}"</h2>
           <div className="results-options-list">
             {lastQuestion.options.map((option) => {
-              const key = option?.id ?? option?.text;
+              const key = option.id;
               const votes = results?.[key] || 0;
               const totalVotes = Object.values(results || {}).reduce((a, b) => a + b, 0);
               const percent = totalVotes > 0 ? (votes / totalVotes) * 100 : 0;
-              const isCorrect = option.id === correctOptionId;
+              const isCorrect = key === correctOptionId;
 
               return (
                 <div key={key} className={`result-item ${isCorrect ? "correct-answer" : ""}`}>
@@ -240,11 +264,11 @@ function Teacher() {
                 setResults(null);
                 setLastQuestion(null);
                 setQuestionText("");
+                setCorrectOptionId(null);
                 setOptions([
                   { id: "opt1", text: "" },
                   { id: "opt2", text: "" },
                 ]);
-                setCorrectOptionId(null);
               }}
             >
               Ask Another Question

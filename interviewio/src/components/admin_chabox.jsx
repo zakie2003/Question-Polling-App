@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 import "../CSS/Chatbox.css";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -14,6 +14,7 @@ const AdminChatbox = () => {
     const [input, setInput] = useState("");
     const [showParticipant,setShowParticipant]=useState(false);
     const [users,setUsers]=useState([]);
+    const bottomRef = useRef(null);
 
     const sendMessage = () => {
         if (input.trim()) {
@@ -26,14 +27,17 @@ const AdminChatbox = () => {
 
     const get_messages = async () => {
     try {
-        const response = await axios.get("http://localhost:3000/chat_message"); 
-        setMessages([...response.data.data].reverse());
+        const response = await axios.get("https://question-polling-app.onrender.com/chat_message"); 
+        setMessages([...response.data.data]);
   
     } catch (err) {
         console.error("Error fetching messages", err);
     }
     };
 
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     useEffect(()=>{
     get_messages();  
@@ -54,7 +58,7 @@ const AdminChatbox = () => {
     useEffect(()=>{
         get_user_Data();
         socket.on("chat message",(message)=>{
-            setMessages((prev) => [...prev, message]);
+            setMessages((prev) => [message,...prev]);
         })
 
         return () => {

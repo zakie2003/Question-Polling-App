@@ -5,7 +5,7 @@ import Student from './page/Student';
 import Poll from './page/Poll';
 import Teacher from './page/Teacher';
 import Removed from './page/Removed';
-
+import History from './page/history';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
         <Route path='/student/poll' element={<Poll/>} />
         <Route path='/teacher' element={<Teacher/>} />
         <Route path='/removed' element={<Removed/>} />
+        <Route path='/history' element={<History/>} />
       </Routes>
     </Router>
   );
